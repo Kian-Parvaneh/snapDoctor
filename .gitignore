@@ -8,3 +8,5 @@ src/__pycache__/main.cpython-310.pyc
 .gitignore
 src/Database/__pycache__/getEngine.cpython-310.pyc
 src/Database/Models/__pycache__/models.cpython-310.pyc
+Routes/__pycache__
+Database/Queries/__pycache__
