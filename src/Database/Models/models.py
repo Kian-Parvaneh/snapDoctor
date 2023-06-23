@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 class Doctors(Base):
     __tablename__ = "Doctors";
     id = Column(Integer, primary_key=True, index=True, autoincrement = "auto");
-    name = Column(String(100), nullable=False);
+    name = Column(String(100));
     specialization = Column(String(100), default= "PublicHealth");
     email = Column(String(100), unique=True, nullable=False);
     password = Column(String(250), nullable=False);
@@ -53,5 +53,5 @@ class Payments(Base):
     id = Column(Integer, primary_key=True, index=True);
     date = Column(String(100),nullable=False);
     price = Column(String(10), nullable=False);
-    bankName = Column(String(15), nullable=False);
-    visit = Column(Integer, ForeignKey("Visits.id"));
+    bankName = Column(String(15));
+    visitID = Column(Integer, ForeignKey("Visits.id"));

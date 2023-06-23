@@ -1,5 +1,6 @@
 from pydantic import Json;
 from Database.getEngine import SessionLocal;
+from Database.Schemas import schema;
 from fastapi import APIRouter, Depends, HTTPException;
 from sqlalchemy.orm import Session;
 from Database.Queries import crud;
@@ -14,33 +15,28 @@ def get_db():
         db.close();
 
 
-@router.post("/Create")
-async def create(doctor: Json, db: Session = Depends(get_db)):
+@router.post("/Create", response_model=  schema.Doctor)
+async def create(doctor: schema.DoctorCreate, db: Session = Depends(get_db)):
     if crud.get_doctor_by_email(db, doctor.email):
         raise HTTPException(status_code=400, detail="Email already registered");
-    createdUser = crud.create_doctor(db, doctor);
-    return {"Status": 200, "payload": createdUser};
+    return crud.create_doctor(db, doctor);
 
 
-@router.get("/Patients/{doctorID}")
-async def get_doctor_patients(doctorID, db: Session = Depends(get_db)):
-    pationts = crud.get_doctor_patients(db, doctorID);
-    return {"Status": 200, "Payload": pationts};
+@router.get("/Patients/{doctorID}", response_model= list[schema.User])
+async def get_doctor_patients(doctorID: str, db: Session = Depends(get_db)):
+    return crud.get_doctor_patients(db, doctorID);
 
 
-@router.get("/All")
+@router.get("/All", response_model= list[schema.Doctor])
 async def get_all_doctors(db: Session = Depends(get_db)):
-    allDoctors = crud.get_all_doctors(db);
-    return {"Status": 200, "Payload": allDoctors};
+    return crud.get_all_doctors(db);
 
 
-@router.get("/Visits/{doctorID}")
-async def get_doctor_visits(doctorID, db: Session = Depends(get_db)):
-    allVisits = crud.get_doctor_visits(db, doctorID);
-    return {"Status": 200, "Payload": allVisits};
+@router.get("/Visits/{doctorID}", response_model= list[schema.Visit])
+async def get_doctor_visits(doctorID: str, db: Session = Depends(get_db)):
+    return crud.get_doctor_visits(db, doctorID);
 
 
-@router.get("/AllinCity/{cityName}")
-async def get_doctors_by_city(cityName, db: Session = Depends(get_db)):
-    allDoctorsInCity = crud.get_doctors_by_city(db, cityName);
-    return {"Status": 200, "Payload": allDoctorsInCity};
+@router.get("/AllinCity/{cityName}", response_model= list[schema.Doctor])
+async def get_doctors_by_city(cityName: str, db: Session = Depends(get_db)):
+    return crud.get_doctors_by_city(db, cityName);
