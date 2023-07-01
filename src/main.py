@@ -9,3 +9,4 @@ models.Base.metadata.create_all(bind=db_engine);
 
 app.include_router(DoctorRoutes);
 app.include_router(UserRoutes);
+app.include_router(VisitRoutes);

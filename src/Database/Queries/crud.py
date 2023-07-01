@@ -18,7 +18,19 @@ def get_doctors_by_city(db: Session, cityName: str):
 def get_all_users(db: Session):
     return db.query(models.Users).all();
 
-############Problem############
+def get_visit_byID(db: Session, visitID: str):
+    return db.query(models.Visits).filter(models.Visits.id == visitID).first();
+
+def get_all_payments(db: Session):
+    return db.query(models.Payments).all();
+
+def pay_visit(db: Session, Payment: schema.PaymentsCreate):
+    paymentModel = models.Payments(visitID = Payment.visitID, paymentsDate = Payment.paymentsDate, bankName = Payment.bankName);
+    db.add(paymentModel);
+    db.commit();
+    db.refresh(paymentModel);
+    return paymentModel;
+
 def get_doctor_patients(db: Session, doctorID: str):
     return db.query(models.Users).filter(models.Visits.doctorID == doctorID).filter(models.Users.id == models.Visits.userID).all();
 

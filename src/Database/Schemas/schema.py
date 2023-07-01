@@ -63,12 +63,11 @@ class City(CityBase):
 
 class PaymentsBase(BaseModel):
     visitID: int;
-    date: str;
-    price: str;
+    paymentsDate: str;
+    bankName: str | None = None;
 class PaymentsCreate(PaymentsBase):
     pass;
 class Payments(PaymentsBase):
     id: int;
-    bankName: str | None = None;
     class Config:
         orm_mode = True;

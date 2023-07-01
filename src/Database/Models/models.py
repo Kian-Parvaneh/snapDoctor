@@ -51,7 +51,7 @@ class City(Base):
 class Payments(Base):
     __tablename__ = "Payments";
     id = Column(Integer, primary_key=True, index=True);
-    date = Column(String(100),nullable=False);
-    price = Column(String(10), nullable=False);
+    paymentsDate = Column(String(100),nullable=False);
     bankName = Column(String(15));
+    # paid = Column(Boolean, default=False);
     visitID = Column(Integer, ForeignKey("Visits.id"));
